@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baci Di Gelato — Ice Cream Kisses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Mukta:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --charcoal: #1B1917;
+      --ink:      #231F1C;
+      --cream:    #F3EDE2;
+      --cream-2:  #EDE6D8;
+      --caramel:  #C8A47A;
+      --strawberry: #F47C8C;
+      --pistachio:  #9FC560;
+      --lemon:      #F4C843;
+      --sky:        #6FC4DA;
+      --coral:      #ED8A5B;
+
+      --display: 'Cormorant Garamond', Georgia, serif;
+      --body:    'Mukta', system-ui, sans-serif;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--body); font-weight: 300; line-height: 1.7; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+
+    /* ── PRIMITIVES ── */
+    .eyebrow {
+      font-family: var(--body); font-weight: 400; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.24em;
+      color: var(--caramel); display: inline-flex; align-items: center; gap: 0.7rem;
+    }
+    .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--caramel); display: inline-block; }
+
+    h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.12; }
+
+    .display { font-size: clamp(2.6rem, 6vw, 5rem); font-style: italic; }
+    .h-section { font-size: clamp(2rem, 4vw, 3.4rem); }
+    .h-section em { font-style: italic; }
+
+    p.lead { font-size: 1.15rem; font-weight: 300; max-width: 52ch; }
+
+    .hairline { width: 100%; height: 1px; background: rgba(27,25,23,0.12); border: 0; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--body); font-weight: 400; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.16em;
+      padding: 0.95rem 1.8rem; text-decoration: none; cursor: pointer;
+      border-radius: 2px; transition: all 0.3s var(--ease);
+    }
+    .btn-dark { background: var(--charcoal); color: var(--cream); border: 1px solid var(--charcoal); }
+    .btn-dark:hover { background: transparent; color: var(--charcoal); }
+    .btn-light { background: var(--cream); color: var(--charcoal); border: 1px solid var(--cream); }
+    .btn-light:hover { background: transparent; color: var(--cream); }
+    /* pill — reserved for the poppy accent only */
+    .btn-pill { border-radius: 999px; background: var(--strawberry); color: #5e2330; border: 1px solid var(--strawberry); }
+    .btn-pill:hover { background: transparent; color: var(--strawberry); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.6rem;
+      background: rgba(243,237,226,0.82); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(27,25,23,0.07);
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-logo { height: 40px; }
+    .nav-logo img { height: 100%; display: block; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--body); font-weight: 400; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--charcoal); text-decoration: none; opacity: 0.7; transition: opacity 0.25s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta { padding: 0.6rem 1.3rem !important; }
+
+    /* ── SECTION SHELL ── */
+    section { padding: 7rem 2.6rem; position: relative; }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    .sec-dark { background: var(--charcoal); color: var(--cream); }
+    .sec-dark .eyebrow { color: var(--caramel); }
+    .sec-dark .hairline { background: rgba(243,237,226,0.14); }
+
+    /* ── HERO ── */
+    #hero { padding-top: 7.5rem; padding-bottom: 5rem; min-height: 82vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .hero-top { text-align: center; max-width: 880px; margin: 0 auto; }
+    .hero-logo { width: 210px; max-width: 66%; display: block; margin: 0 auto 2.2rem; }
+    .hero-top .eyebrow { justify-content: center; margin-bottom: 1.6rem; }
+    .hero-top h1 { margin-bottom: 1.4rem; }
+    .hero-accent { color: var(--strawberry); }
+    .hero-top p.lead { margin: 0 auto 2rem; }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; }
+    .hero-sticker { position: absolute; pointer-events: none; }
+    .hs-tr { top: 5.5rem;  right: 3rem;   width: 90px; animation: stickerPop   0.7s 0.35s var(--ease) both; }
+    .hs-tl { top: 6.5rem;  left: 2.5rem;  width: 80px; animation: stickerPopTL 0.7s 0.55s var(--ease) both; }
+    .hs-bl { bottom: 4rem; left: 3rem;    width: 78px; animation: stickerPopBL 0.7s 0.75s var(--ease) both; }
+    .hs-br { bottom: 3rem; right: 2.5rem; width: 86px; animation: stickerPopBR 0.7s 0.50s var(--ease) both; }
+
+    /* ── AWARD (dark) ── */
+    .award-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 0; align-items: stretch; border: 1px solid rgba(243,237,226,0.14); border-radius: 5px; overflow: hidden; }
+    .award-img { overflow: hidden; min-height: 440px; }
+    .award-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; display: block; }
+    .award-body { padding: 4rem 3.6rem; display: flex; flex-direction: column; justify-content: center; }
+    .award-body .eyebrow { color: var(--lemon); margin-bottom: 1.4rem; }
+    .award-body .eyebrow::before { background: var(--lemon); }
+    .award-body h2 { font-size: clamp(2.2rem, 3.6vw, 3.4rem); font-style: italic; margin-bottom: 0.4rem; }
+    .award-meta { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(243,237,226,0.5); margin-bottom: 2rem; }
+    .award-quote { font-family: var(--display); font-style: italic; font-size: 1.4rem; line-height: 1.5; color: rgba(243,237,226,0.82); }
+    .award-logo { height: 34px; margin-top: 2.4rem; opacity: 0.55; }
+    .award-logo img { height: 100%; }
+    .award-press { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.6rem; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--caramel); text-decoration: none; border-bottom: 1px solid rgba(200,164,122,0.4); padding-bottom: 2px; align-self: flex-start; transition: color 0.25s, border-color 0.25s; }
+    .award-press:hover { color: var(--lemon); border-color: var(--lemon); }
+
+    .c-socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; margin-top: 2.6rem; }
+    .c-socials a { font-family: var(--body); font-weight: 400; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--charcoal); text-decoration: none; opacity: 0.65; border-bottom: 1px solid rgba(27,25,23,0.25); padding-bottom: 3px; transition: opacity 0.25s, color 0.25s, border-color 0.25s; }
+    .c-socials a:hover { opacity: 1; color: var(--coral); border-color: var(--coral); }
+
+    /* ── BRANCHES ── */
+    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
+    .sec-head .eyebrow { justify-content: center; margin-bottom: 1.2rem; }
+    .sec-head h2 { margin-bottom: 1rem; }
+    .sec-head p { font-size: 1.08rem; color: rgba(27,25,23,0.62); }
+
+    .branches { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+    .branch { background: #fff; border: 1px solid rgba(27,25,23,0.08); border-radius: 5px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(27,25,23,0.03); transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease); }
+    .branch:hover { box-shadow: 0 18px 40px -24px rgba(27,25,23,0.35); transform: translateY(-3px); }
+    .branch-media { aspect-ratio: 4/5; max-height: 360px; overflow: hidden; }
+    .branch-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s var(--ease); }
+    .branch:hover .branch-media img { transform: scale(1.04); }
+    .branch-body { padding: 2.2rem 2.2rem 2.4rem; display: flex; flex-direction: column; flex: 1; }
+    .branch .eyebrow { margin-bottom: 1rem; }
+    .b-parlour .eyebrow { color: var(--pistachio); } .b-parlour .eyebrow::before { background: var(--pistachio); }
+    .b-event .eyebrow { color: var(--coral); } .b-event .eyebrow::before { background: var(--coral); }
+    .branch h3 { font-size: 1.9rem; font-style: italic; margin-bottom: 0.8rem; }
+    .branch p { color: rgba(27,25,23,0.66); margin-bottom: 1.4rem; }
+    .branch ul { list-style: none; margin-bottom: 1.8rem; }
+    .branch li { font-size: 0.95rem; color: rgba(27,25,23,0.6); padding: 0.4rem 0; border-bottom: 1px solid rgba(27,25,23,0.07); display: flex; gap: 0.7rem; align-items: center; }
+    .branch li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .b-parlour li::before { background: var(--pistachio); }
+    .b-event li::before { background: var(--coral); }
+    .branch-foot { margin-top: auto; }
+    .branch-addr { font-size: 0.9rem; color: rgba(27,25,23,0.55); line-height: 1.6; font-style: normal; }
+    .branch-note { font-size: 0.86rem; color: rgba(27,25,23,0.5); margin: 0 0 1.2rem; }
+
+    /* ── STORY (dark) ── */
+    .story-grid { display: grid; grid-template-columns: 0.85fr 1fr; gap: 3.5rem; align-items: center; }
+    .story-media { aspect-ratio: 4/5; overflow: hidden; border-radius: 5px; }
+    .story-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .story-text .eyebrow { color: var(--sky); margin-bottom: 1.3rem; }
+    .story-text .eyebrow::before { background: var(--sky); }
+    .story-text h2 { margin-bottom: 1.6rem; }
+    .story-text p { color: rgba(243,237,226,0.74); margin-bottom: 1.1rem; max-width: 50ch; }
+    .story-sign { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--sky); margin-top: 0.6rem; }
+    .story-video { margin-top: 3.5rem; }
+    .story-video .eyebrow { color: var(--sky); justify-content: center; margin-bottom: 1.6rem; }
+    .story-video .eyebrow::before { background: var(--sky); }
+    .video-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; max-width: 560px; margin: 0 auto; }
+    .video-cell { margin: 0; }
+    .video-cell video { width: 100%; aspect-ratio: 9/16; object-fit: contain; display: block; background: #000; border-radius: 5px; border: 1px solid rgba(243,237,226,0.14); }
+    .video-cell figcaption { font-family: var(--display); font-style: italic; font-size: 1.05rem; color: var(--sky); margin-top: 0.7rem; }
+
+    /* ── FLAVOURS ── */
+    .flav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .flav-col .eyebrow { color: var(--coral); margin-bottom: 1.3rem; } .flav-col .eyebrow::before { background: var(--coral); }
+    .flav-col h3 { font-size: 1.7rem; font-style: italic; margin-bottom: 1.2rem; }
+    .flav-list { list-style: none; columns: 2; column-gap: 2rem; }
+    .flav-list li { font-size: 1rem; color: rgba(27,25,23,0.7); padding: 0.42rem 0; break-inside: avoid; transition: color 0.2s, padding-left 0.2s; }
+    .flav-list li:hover { color: var(--charcoal); padding-left: 0.3rem; }
+    .flav-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .flav-tile { aspect-ratio: 1/1; overflow: hidden; border-radius: 4px; }
+    .flav-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s var(--ease); }
+    .flav-tile:hover img { transform: scale(1.06); }
+
+    /* ── TESTIMONIALS (dark) ── */
+    .t-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-bottom: 1.4rem; }
+    .t-photos img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: center 28%; display: block; border-radius: 5px; }
+    .t-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(243,237,226,0.1); border: 1px solid rgba(243,237,226,0.1); border-radius: 5px; overflow: hidden; }
+    .review { background: var(--charcoal); padding: 1.8rem 1.7rem; display: flex; flex-direction: column; }
+    .stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .star { width: 12px; height: 12px; flex-shrink: 0; background: var(--lemon); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+    .review-q { font-family: var(--display); font-style: italic; font-size: 1.12rem; line-height: 1.5; color: rgba(243,237,226,0.84); flex: 1; margin-bottom: 1rem; }
+    .review-n { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--caramel); }
+    .review-o { font-size: 0.8rem; color: rgba(243,237,226,0.4); }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    #contact .eyebrow { justify-content: center; margin-bottom: 1.4rem; }
+    #contact h2 { margin-bottom: 0.6rem; }
+    #contact .lead { margin: 0 auto 3rem; }
+    .contact-sticker { width: 110px; transform: rotate(-9deg); margin: 0 auto 1.5rem; display: block; }
+    .c-row { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .c-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .c-item .eyebrow { justify-content: center; margin: 0 0 0.2rem; }
+    .c-item a, .c-item span { font-family: var(--display); font-style: italic; font-size: 1.4rem; color: var(--charcoal); text-decoration: none; transition: color 0.25s; }
+    .c-item a:hover { color: var(--coral); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); color: rgba(243,237,226,0.6); padding: 3rem 2.6rem; }
+    .foot-grid { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .foot-logo { height: 52px; opacity: 0.8; }
+    .foot-logo img { height: 100%; }
+    .foot-meta { font-size: 0.8rem; letter-spacing: 0.1em; text-align: right; }
+    .foot-tag { font-family: var(--display); font-style: italic; font-size: 1.1rem; color: var(--caramel); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.18s; } .d3 { transition-delay: 0.28s; }
+    .sticker-in.in { animation: stickerPop 0.7s var(--ease) forwards; }
+    @keyframes stickerPop    { 0% { opacity: 0; transform: rotate(11deg)  scale(0.6); } 100% { opacity: 1; transform: rotate(11deg)  scale(1); } }
+    @keyframes stickerPopTL  { 0% { opacity: 0; transform: rotate(-14deg) scale(0.6); } 100% { opacity: 1; transform: rotate(-14deg) scale(1); } }
+    @keyframes stickerPopBL  { 0% { opacity: 0; transform: rotate(-8deg)  scale(0.6); } 100% { opacity: 1; transform: rotate(-8deg)  scale(1); } }
+    @keyframes stickerPopBR  { 0% { opacity: 0; transform: rotate(17deg)  scale(0.6); } 100% { opacity: 1; transform: rotate(17deg)  scale(1); } }
+    @keyframes stickerPopMid { 0% { opacity: 0; transform: rotate(-5deg)  scale(0.6); } 100% { opacity: 1; transform: rotate(-5deg)  scale(1); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      section { padding: 4.5rem 1.4rem; }
+      nav { padding: 0.9rem 1.4rem; }
+      .nav-links { display: none; }
+      .award-grid, .branches, .story-grid, .flav-grid, .t-grid { grid-template-columns: 1fr; }
+      .award-img { min-height: 300px; }
+      .award-body { padding: 2.6rem 1.8rem; }
+      .story-grid { gap: 2rem; }
+      .flav-tiles { grid-template-columns: repeat(2, 1fr); }
+      .video-pair { grid-template-columns: 1fr; max-width: 420px; }
+      .t-cards { grid-template-columns: 1fr; }
+      .t-photos { grid-template-columns: 1fr; }
+      .c-row { gap: 2rem; }
+      .foot-grid { flex-direction: column; text-align: center; }
+      .foot-meta { text-align: center; }
+      .hero-sticker { width: 52px; }
+      .hs-tr { top: 4rem; right: 0.6rem; }
+      .hs-tl { top: 5rem; left: 0.6rem; }
+      .hs-bl { bottom: 3rem; left: 0.6rem; }
+      .hs-br { bottom: 2.5rem; right: 0.6rem; }
+      .hero-logo { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Baci Di Gelato — Ice Cream Kisses. Award-winning handcrafted Italian gelato in Glossop, and a vintage gelato cart for weddings and events across the UK.</h2>
+
+<!-- NAV -->
+<nav aria-label="Site navigation">
+  <a href="#hero" class="nav-logo" aria-label="Baci Di Gelato home"><img src="images/logo/baci-logo-charcoal.png" alt="Baci Di Gelato"></a>
+  <ul class="nav-links">
+    <li><a href="#branches">Find us</a></li>
+    <li><a href="#story">Our gelato</a></li>
+    <li><a href="#flavours">Flavours</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="btn btn-dark nav-cta">Enquire</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <img class="hero-sticker hs-tl" src="images/stickers/baci-sticker-couple-lemon.png" alt="" aria-hidden="true">
+  <img class="hero-sticker hs-tr" src="images/stickers/baci-sticker-couple-strawberry.png" alt="" aria-hidden="true">
+  <img class="hero-sticker hs-bl" src="images/stickers/baci-sticker-couple-pistachio.png" alt="" aria-hidden="true">
+  <img class="hero-sticker hs-br" src="images/stickers/baci-sticker-couple-coral.png" alt="" aria-hidden="true">
+  <div class="hero-top reveal">
+    <img class="hero-logo" src="images/logo/baci-logo-charcoal.png" alt="Baci Di Gelato — Ice Cream Kisses">
+    <span class="eyebrow">Glossop · Manchester · UK-wide events</span>
+    <h1 class="display">Sweeter, <span class="hero-accent">shared.</span></h1>
+    <p class="lead">Handcrafted Italian gelato, made with love — by the scoop in Glossop, and on a vintage cart at the moments you'll remember.</p>
+    <div class="hero-actions">
+      <a href="#branches" class="btn btn-dark">Find us</a>
+      <a href="#contact" class="btn btn-pill">Book the cart</a>
+    </div>
+  </div>
+</section>
+
+<!-- AWARD -->
+<section class="sec-dark">
+  <div class="wrap">
+    <div class="award-grid reveal">
+      <div class="award-img">
+        <img src="images/national%20gold%20scoop%20award%202026.jpg" alt="Erin and Jonathan holding the Best Newcomer trophy at the National Golden Scoop Awards 2026">
+      </div>
+      <div class="award-body">
+        <span class="eyebrow">National Golden Scoop Awards 2026</span>
+        <h2>Best Newcomer</h2>
+        <p class="award-meta">National industry recognition</p>
+        <p class="award-quote">"Every scoop, every flavour, and every smile from our customers helped make this possible."</p>
+        <a class="award-press" href="https://www.notreallyheremedia.com/news/glossop-chronicle/award-winning-authentic-and-made-with-love/" target="_blank" rel="noopener">As featured in the Glossop Chronicle ↗</a>
+        <div class="award-logo"><img src="images/logo/baci-logo-white.png" alt="Baci Di Gelato"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section id="branches">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Where to find us</span>
+      <h2 class="h-section">Two ways to enjoy an <em>ice cream kiss</em></h2>
+      <p>One quiet parlour in Glossop. One vintage cart that travels to you.</p>
+    </div>
+
+    <div class="branches">
+      <article class="branch b-parlour reveal d1">
+        <div class="branch-media"><img src="images/portrait/baci-cone-loft-4x5.jpg" alt="A freshly scooped cone at the Glossop Market Hall parlour"></div>
+        <div class="branch-body">
+          <span class="eyebrow">The parlour</span>
+          <h3>Glossop Market Hall</h3>
+          <p>Step inside our home. A full flavour range, seasonal specials, and bespoke take-home packs — in a relaxed, family-friendly setting.</p>
+          <ul>
+            <li>Full artisan flavour range</li>
+            <li>Bespoke take-home packs</li>
+            <li>Gelato by the slice</li>
+            <li>Seasonal &amp; rotating specials</li>
+            <li>Waffle cones, tubs &amp; toppings</li>
+          </ul>
+          <div class="branch-foot">
+            <address class="branch-addr">Market Hall, The Food Hall<br>High St W, Glossop SK13 8AR</address>
+          </div>
+        </div>
+      </article>
+
+      <article class="branch b-event reveal d2">
+        <div class="branch-media"><img src="images/portrait/baci-wedding-cart-4x5.jpg" alt="The branded Baci Di Gelato vintage cart at a wedding"></div>
+        <div class="branch-body">
+          <span class="eyebrow">Event hire</span>
+          <h3>The vintage gelato cart</h3>
+          <p>Our branded cart travels to weddings, parties, and celebrations across the UK — with bespoke flavours created just for your guests.</p>
+          <ul>
+            <li>Weddings &amp; receptions</li>
+            <li>Birthdays, parties &amp; corporate</li>
+            <li>Festivals, fetes &amp; charity events</li>
+            <li>Bespoke flavour creation</li>
+            <li>Year-round, anywhere in the UK</li>
+          </ul>
+          <div class="branch-foot">
+            <p class="branch-note">Tell us your date — we'll handle the rest.</p>
+            <a href="mailto:icecreamkisses@outlook.com" class="btn btn-pill">Enquire about your event</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="sec-dark">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-media reveal"><img src="images/portrait/baci-family-4x5.jpg" alt="Erin, Jonathan and their son behind the counter"></div>
+      <div class="story-text reveal d1">
+        <span class="eyebrow">Our gelato</span>
+        <h2 class="h-section">Not just <em>ice cream</em></h2>
+        <p>There's a moment — the first spoonful — where everything else disappears. That dense, silky texture. The flavour that arrives all at once and stays.</p>
+        <p>Gelato is made with more milk than cream, so it's naturally lower in fat — and with less air churned in, every scoop is richer and more intense than ordinary ice cream. Ours uses only natural ingredients, shaped by recipes passed down through generations and guided by our mentor, Jonathan Susca.</p>
+        <p>We're Erin and Jonathan. We started Baci Di Gelato because the best things are sweeter when they're shared.</p>
+        <p class="story-sign">— Erin &amp; Jonathan</p>
+      </div>
+    </div>
+
+    <div class="story-video reveal" style="text-align:center;">
+      <span class="eyebrow">Get to know us</span>
+      <div class="video-pair">
+        <figure class="video-cell">
+          <video controls playsinline preload="metadata" poster="images/showcase%20video%20photo.png" aria-label="Baci Di Gelato showcase film">
+            <source src="videos/showcase%20video.mp4" type="video/mp4">
+          </video>
+          <figcaption>Out and about</figcaption>
+        </figure>
+        <figure class="video-cell">
+          <video controls playsinline preload="metadata" poster="images/did%20you%20know%20video%20photo.png" aria-label="Did you know — what makes gelato different">
+            <source src="videos/did%20you%20knwo%20video.mp4" type="video/mp4">
+          </video>
+          <figcaption>Did you know?</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLAVOURS -->
+<section id="flavours">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">What we scoop</span>
+      <h2 class="h-section">Our <em>flavours</em></h2>
+      <p>Seventeen artisan gelati and twelve sorbets — with bespoke creations on request.</p>
+    </div>
+
+    <div class="flav-grid">
+      <div class="flav-col reveal d1">
+        <span class="eyebrow">Artisan gelato</span>
+        <h3>The classics &amp; beyond</h3>
+        <ul class="flav-list">
+          <li>Traditional Vanilla</li><li>Strawberry</li><li>Chocolate</li><li>Mint Choc Chip</li>
+          <li>Pistachio</li><li>Cookies &amp; Cream</li><li>Jaffa Cake</li><li>Creme Egg</li>
+          <li>Bubblegum</li><li>Unicorn</li><li>Eton Mess</li><li>Irish Cream</li>
+          <li>Black Forest Swirl</li><li>Honeycomb</li><li>Coconut</li><li>Choc Hazelnut</li>
+          <li>Rum &amp; Raisin</li>
+        </ul>
+      </div>
+      <div class="flav-col reveal d2">
+        <span class="eyebrow">Artisan sorbet</span>
+        <h3>Fresh &amp; fruit-forward</h3>
+        <ul class="flav-list">
+          <li>Lemon</li><li>Lime</li><li>Gin &amp; Elderflower</li><li>Mojito</li>
+          <li>Green Apple</li><li>Raspberry</li><li>Rhubarb</li><li>Pineapple</li>
+          <li>Blackcurrant</li><li>Passionfruit</li><li>Kiwi</li><li>Peach</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flav-tiles reveal">
+      <div class="flav-tile"><img src="images/cake.webp" alt="Chocolate-dipped gelato bonbons"></div>
+      <div class="flav-tile"><img src="images/ice%20cream%202.jpg" alt="Mince pie caramel swirl gelato"></div>
+      <div class="flav-tile"><img src="images/ice%20cream%203.jpg" alt="Vanilla gelato with chocolate drizzle"></div>
+      <div class="flav-tile"><img src="images/ice%20cream%204.jpg" alt="Jaffa cake gelato with chocolate discs"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="sec-dark">
+  <div class="wrap">
+    <div class="sec-head reveal" style="color: var(--cream);">
+      <span class="eyebrow" style="color: var(--strawberry);">What people say</span>
+      <h2 class="h-section">Kisses from our <em>guests</em></h2>
+    </div>
+
+    <div class="t-photos reveal">
+      <img src="images/Congratulations%20Laura%26James.jpg" alt="Newlyweds Laura and James celebrating with Baci Di Gelato">
+      <img src="images/Congratulations%20to%20our%20best%20friends%20Mr%26Mrs%20Johnstone%20on%20their%20beautiful%20wedding%20%F0%9F%A4%8DAs%20bridesmaid.jpg" alt="Mr & Mrs Johnstone celebrating at their wedding">
+    </div>
+    <div class="t-cards reveal d1">
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"They went above and beyond to create niche, personal flavours just for us. Our guests haven't stopped talking about it — one of the highlights of the wedding."</p>
+        <span class="review-n">James Bibby</span><span class="review-o">Wedding · via Facebook</span>
+      </div>
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"In my job I taste a lot of ice creams, and Baci Di Gelato is by far superior. My favourite is the pistachio — it should be compulsory at every wedding!"</p>
+        <span class="review-n">Thomas Demol Photographie</span><span class="review-o">Event Photographer · via Facebook</span>
+      </div>
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"My Dad (71) and brother (39) both tried every flavour! Some guests said it was the best ice cream they'd ever had. Wonderful with the little ones too."</p>
+        <span class="review-n">Jen Wilson</span><span class="review-o">Wedding · via Facebook</span>
+      </div>
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"We got to choose our own flavours and they were great with dietary needs — nut-free and vegan. Highly recommend for any event, not just weddings."</p>
+        <span class="review-n">Katie Mitchell</span><span class="review-o">Wedding, July 2021 · via Facebook</span>
+      </div>
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"Absolutely gorgeous ice cream and delicious treats — everyone who was there loved them. Thank you so much!"</p>
+        <span class="review-n">Carol Jefferies</span><span class="review-o">Wedding Reception, 01.10.22 · via Facebook</span>
+      </div>
+      <div class="review">
+        <div class="stars" aria-label="5 stars"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></div>
+        <p class="review-q">"The ice cream was incredible, and both Erin and Jonathan were excellent. They couldn't do enough for us and made our day even better."</p>
+        <span class="review-n">Dave Monaco</span><span class="review-o">Wedding Reception · via Facebook</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <img class="contact-sticker reveal sticker-in" src="images/stickers/baci-sticker-couple-sky.png" alt="" aria-hidden="true">
+    <span class="eyebrow reveal">Say hello</span>
+    <h2 class="display reveal d1">Ready for a <span class="hero-accent">kiss?</span></h2>
+    <p class="lead reveal d1">Visit us in Glossop, or bring the cart to your celebration.</p>
+    <hr class="hairline reveal" style="max-width:120px;margin:0 auto 3rem;">
+    <div class="c-row reveal d2">
+      <div class="c-item"><span class="eyebrow">Call</span><a href="tel:07427142140">07427 142140</a></div>
+      <div class="c-item"><span class="eyebrow">Email</span><a href="mailto:icecreamkisses@outlook.com">icecreamkisses@outlook.com</a></div>
+      <div class="c-item"><span class="eyebrow">WhatsApp</span><a href="https://wa.me/447427142140" target="_blank" rel="noopener">Message us</a></div>
+    </div>
+    <div class="reveal d3">
+      <a href="mailto:icecreamkisses@outlook.com" class="btn btn-pill">Enquire about your event</a>
+    </div>
+    <div class="c-socials reveal d3">
+      <a href="https://www.facebook.com/bacidigelato/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/bacidigelatoicecream/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://ratings.food.gov.uk/business/1085005/baci-di-gelato--ice-cream-kisses" target="_blank" rel="noopener">Food Hygiene Rating</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-logo"><img src="images/logo/baci-logo-white.png" alt="Baci Di Gelato — Ice Cream Kisses"></div>
+    <div class="foot-meta">
+      <p class="foot-tag">Sweeter, shared.</p>
+      <p>Glossop · Manchester · UK-wide events</p>
+      <p>07427 142140 · icecreamkisses@outlook.com</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Hide nav on scroll down, reveal on scroll up
+  let last = 0; const navEl = document.querySelector('nav');
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    navEl.style.transform = (y > last && y > 200) ? 'translateY(-100%)' : 'translateY(0)';
+    last = y;
+  });
+</script>
+
+</body>
+</html>
